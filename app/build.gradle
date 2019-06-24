@@ -1,0 +1,212 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'jacoco'
+
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "org.mp.recipes"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix "-debug"
+            debuggable true
+            minifyEnabled false
+            testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            testCoverageEnabled true
+            debuggable true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+    sourceSets {
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+}
+dependencies {
+    def lifecycleVersion = "1.1.1"
+    def daggerVersion = '2.15'
+    def retrofitVersion = '2.4.0'
+    def okHttpVersion = '3.9.1'
+    def rxjavaVersion = '2.1.10'
+    def rxAndroidVersion = '2.0.2'
+    def timberVersion = '4.7.1'
+    def supportLibraryVersion = '28.0.0'
+    def constraintLayoutVersion = '1.1.3'
+    def rxbindingVersion = '2.1.1'
+    def junitVersion = '4.12'
+    def mockitoVersion = '1.10.19'
+    def mockitoKotlinVersion = '1.5.0'
+    def hamcrestVersion = '1.3'
+    def cardViewVersion = '28.0.0'
+    def designSupportVersion = '28.0.0'
+    def androidSupportVersion = '28.0.0'
+
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:design:$designSupportVersion"
+    implementation "com.android.support:support-v4:$androidSupportVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+    implementation "com.android.support:cardview-v7:$cardViewVersion"
+
+    //Paging
+    implementation "android.arch.paging:runtime:1.0.1"
+
+    //Location
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.android.gms:play-services:12.0.1'
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion") {
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+    }
+
+    //Logging
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
+
+    //Dagger
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+
+    //RxBinding
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxbindingVersion"
+
+    //Image Loading
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
+    implementation "com.android.support:recyclerview-v7:$supportLibraryVersion"
+
+    // Dependencies for local unit tests
+    testImplementation "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.mockito:mockito-all:$mockitoVersion"
+    testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
+    testImplementation "android.arch.core:core-testing:$lifecycleVersion", {
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    }
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
+    // Espresso support
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    // add this for intent mocking support
+    androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+    androidTestImplementation 'info.cukes:cucumber-android:1.2.5@jar'
+    androidTestImplementation 'info.cukes:cucumber-picocontainer:1.2.4'
+
+    testImplementation 'org.robolectric:robolectric:3.4.2'
+
+}
+task jacocoTestReport(type: JacocoReport, dependsOn: [
+//if you have already run those tasks in your build, just comment them
+'testMycmsMockDebugUnitTest',
+'testMycmsProdDebugUnitTest',
+'createMycmsMockDebugCoverageReport',
+'createMycmsProdDebugCoverageReport',
+]) {
+//Define which type of report you want to generate
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+    //define which classes to exclude
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*$ViewInjector*.*',
+            '**/*$ViewBinder*.*',
+            '**/*$Lambda$*.*', // Jacoco can not handle several "$" in class name.
+            '**/*Module.*', // Modules for Dagger.
+            '**/*Dagger*.*', // Dagger auto-generated code.
+            '**/*MembersInjector*.*', // Dagger auto-generated code.
+            '**/*_Provide*Factory*.*',
+            '**/*_Factory.*', //Dagger auto-generated code
+            '**/*$*$*.*', // Anonymous classes generated by kotlin
+            //add libraries
+            'android/**/*.*',
+            'com/**/*.*',
+            'uk/**/*.*',
+            'io/**/*.*',
+            //remove what we don't test
+            'androidTest/**/*.*',
+            'test/**/*.*',
+            '**/injector/**/*.*',
+            '**/model/**/*.*',
+            '**/mock/**/*.*',
+            '**/event/**/*.*',
+            '**/**_ViewBinding**',
+            '**/*EventType.*',
+            '**/**Mocked'
+    ]
+    //Define your source and your classes: we want to test the production code
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/mycmsProd/debug", excludes: fileFilter)
+    def mainSrc = files(["src/main/java", "src/mycms/java"])
+    //Explain to Jacoco where is your source code
+    sourceDirectories = files([mainSrc])
+//Explain to Jacoco where are you .class file
+    classDirectories = files([debugTree])
+    //As you want to gather all your tests reports, add the ec and exec you want to be took into
+    //account when generating the report
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testMycmsMockDebugUnitTest.exec",
+            "jacoco/testMycmsProdDebugUnitTest.exec",
+            "outputs/code-coverage/connected/flavors/**/*coverage.ec"
+    ])
+}
