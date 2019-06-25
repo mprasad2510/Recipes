@@ -3,7 +3,7 @@
                                              xmlns:app="http://schemas.android.com/apk/res-auto"
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
-                                             android:layout_height="wrap_content"
+                                             android:layout_height="match_parent"
                                              android:clickable="true"
                                              android:background="@color/colorPrimary">
     <android.support.v7.widget.Toolbar
@@ -29,20 +29,12 @@
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/raleway"
                     android:text=" D E T A I L"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorTextHeadline"
                     android:textSize="20dp"/>
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.constraint.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/constraintLayout"
-            app:layout_constraintTop_toTopOf="@+id/toolbar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-    </android.support.constraint.ConstraintLayout>
     <ProgressBar
             android:id="@+id/progressBar1"
             style="?android:attr/progressBarStyle"
@@ -76,6 +68,7 @@
             android:layout_width="0dp"
             android:scaleType="centerCrop"
             android:layout_height="150dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:src="@drawable/ic_launcher_background"
@@ -93,7 +86,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_by"
-            tools:text="22 Dec 1929"/>
+            tools:text="22 Dec 1929"
+            android:layout_marginTop="12dp"/>
 
     <TextView
             android:id="@+id/text_parent"
@@ -103,12 +97,11 @@
             android:layout_marginLeft="16dp"
             android:fontFamily="@font/raleway"
             android:padding="8dp"
-            android:hint="Description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/colorTextHeadline"
             app:layout_constraintTop_toBottomOf="@+id/text_time"
-            tools:text="Parent"/>
+            tools:text="Parent" android:layout_marginTop="12dp"/>
     <TextView
             android:id="@+id/text_kids"
             android:layout_width="0dp"
@@ -124,7 +117,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_parent"
-            tools:text="Kids"/>
+            tools:text="Kids" app:layout_constraintHorizontal_bias="1.0" app:layout_constraintVertical_bias="0.037"/>
     <TextView
             android:id="@+id/text_comments"
             android:layout_width="0dp"
@@ -140,6 +133,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_kids"
-            tools:text="Comments"/>
+            tools:text="Comments" app:layout_constraintVertical_bias="0.053"/>
 
 </android.support.constraint.ConstraintLayout>

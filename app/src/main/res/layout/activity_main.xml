@@ -30,7 +30,7 @@
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/raleway"
                     android:text="H E A D L I N E S"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/colorTextHeadline"
                     android:textSize="20dp"/>
         </RelativeLayout>
 

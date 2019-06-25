@@ -10,4 +10,6 @@ sealed class UserAction : MviAction
 {
     object LoadUserAction : UserAction()
     data class ClickAction(val user: Fields?) : UserAction()
+    object LoadImageAction : UserAction()
+    object LoadTagsAction : UserAction()
 }

@@ -29,6 +29,8 @@ class UserViewModel(private val userActionProcessorHolder:
     override fun actionFromIntent(intent: UserIntent): UserAction {
         return when (intent) {
             is UserIntent.InitialIntent -> UserAction.LoadUserAction
+            is UserIntent.LoadImageIntent -> UserAction.LoadImageAction
+            is UserIntent.LoadTagsIntent -> UserAction.LoadTagsAction
             is UserIntent.ClickIntent -> UserAction.ClickAction(intent.user)
         }
     }
@@ -54,6 +56,37 @@ class UserViewModel(private val userActionProcessorHolder:
                             previousState.copy(isLoadingUser = false, isError = true, errorMessage = result.errorMessage)
                         }
                         is UserResult.LoadUserResult.InFlight -> {
+                            previousState.copy(isLoadingUser = true, isError = false, errorMessage = "")
+                        }
+                    }
+                }
+
+                is UserResult.LoadImageResult ->
+                {
+                    when(result)
+                    {
+                        is UserResult.LoadImageResult.Success -> {
+                            previousState.copy(isLoadingUser = false, isError = false, errorMessage = "",imageList = result.imageList)
+                        }
+                        is UserResult.LoadImageResult.Failure -> {
+                            previousState.copy(isLoadingUser = false, isError = true, errorMessage = result.errorMessage)
+                        }
+                        is UserResult.LoadImageResult.InFlight -> {
+                            previousState.copy(isLoadingUser = true, isError = false, errorMessage = "")
+                        }
+                    }
+                }
+                is UserResult.LoadTagsResult ->
+                {
+                    when(result)
+                    {
+                        is UserResult.LoadTagsResult.Success -> {
+                            previousState.copy(isLoadingUser = false, isError = false, errorMessage = "",tagsList = result.tagsList)
+                        }
+                        is UserResult.LoadTagsResult.Failure -> {
+                            previousState.copy(isLoadingUser = false, isError = true, errorMessage = result.errorMessage)
+                        }
+                        is UserResult.LoadTagsResult.InFlight -> {
                             previousState.copy(isLoadingUser = true, isError = false, errorMessage = "")
                         }
                     }

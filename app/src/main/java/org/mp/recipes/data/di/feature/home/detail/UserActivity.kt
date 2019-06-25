@@ -4,6 +4,7 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import com.bumptech.glide.Glide
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
@@ -32,6 +33,7 @@ class UserActivity : BaseActivity(), MviView<UserIntent, UserViewState>, HasActi
     companion object
     {
         var id = ""
+        var assetId = ""
     }
 
     override fun layoutId(): Int {
@@ -55,25 +57,33 @@ class UserActivity : BaseActivity(), MviView<UserIntent, UserViewState>, HasActi
         return Observable.just(UserIntent.InitialIntent)
     }
 
+    private fun loadImageIntent(): Observable<UserIntent.LoadImageIntent>
+    {
+        return Observable.just(UserIntent.LoadImageIntent)
+    }
+
+    private fun loadTagsIntent(): Observable<UserIntent.LoadTagsIntent>
+    {
+        return Observable.just(UserIntent.LoadTagsIntent)
+    }
+
     override fun intents(): Observable<UserIntent> {
-        return Observable.merge(initialIntent(), clickIntent)
+        return Observable.merge(initialIntent(),loadImageIntent(),loadTagsIntent(), clickIntent)
     }
 
     override fun render(state: UserViewState) {
-
         with(state) {
             if (isLoadingUser) {
                 progressBar1.visible()
             } else {
                 progressBar1.gone()
             }
-
-            if(userList != null) {
-              //  Glide.with(coverImage).load("https:" + image?.file?.url).into(coverImage)
-                text_by.text = StringBuilder().append("Title : ").append(userList?.title)
+                Glide.with(coverImage).load("https:" + imageList?.file?.url).into(coverImage)
+                text_by.text = userList?.title
+                text_time.text = StringBuilder().append("Chef : ").append(userList?.name)
+                text_parent.text = StringBuilder().append("tags : ").append(tagsList?.name)
                 text_comments.text = StringBuilder().append("Calories : ").append(userList?.calories.toString())
                 text_kids.text = StringBuilder().append("Description : ").append(userList?.description)
-            }
             if (showShareOption) {
                 showShareIntent(user)
             }
@@ -98,4 +108,5 @@ class UserActivity : BaseActivity(), MviView<UserIntent, UserViewState>, HasActi
     override fun activityInjector(): AndroidInjector<Activity> {
         return injector
     }
+
 }

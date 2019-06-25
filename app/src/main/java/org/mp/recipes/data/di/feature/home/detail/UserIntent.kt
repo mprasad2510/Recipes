@@ -7,5 +7,7 @@ import org.mp.recipes.data.remote.model.FieldsUrl
 
 sealed class UserIntent : MviIntent {
     object InitialIntent : UserIntent()
+    object LoadImageIntent : UserIntent()
+    object LoadTagsIntent : UserIntent()
     data class ClickIntent(val user: Fields?): UserIntent()
 }

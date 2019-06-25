@@ -3,6 +3,7 @@ package org.mp.recipes.data.remote.retrofit
 import io.reactivex.Single
 import org.mp.recipes.data.remote.model.DetailResponse
 import org.mp.recipes.data.remote.model.LoadImageResponse
+import org.mp.recipes.data.remote.model.LoadTagsResponse
 import org.mp.recipes.data.remote.model.Response
 import retrofit2.http.*
 
@@ -21,5 +22,10 @@ interface NetworkApi {
     @GET("/spaces/{space_id}/environments/{environment_id}/assets/{asset_id}")
     fun loadImage(@Path("space_id") spaceId: String,@Path("environment_id") environmentId: String,
                   @Path("asset_id") assetId: String, @Query("access_token") accessToken: String) : Single<LoadImageResponse>
+
+    @GET("/spaces/{space_id}/environments/{environment_id}/entries/{entry_id}")
+    fun loadTags(@Path("space_id") spaceId: String,@Path("environment_id") environmentId: String,
+                 @Path("entry_id") entryId: String, @Query("access_token") accessToken: String) : Single<LoadTagsResponse>
+
 }
 

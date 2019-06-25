@@ -23,7 +23,9 @@ class UserActionProcessorHolder @Inject constructor(private val repository: Repo
             action.publish { shared ->
                 Observable.merge(
                         shared.ofType(UserAction.LoadUserAction::class.java).compose(loadUser()),
-                        shared.ofType(UserAction.ClickAction::class.java).compose(shareArticle())
+                        shared.ofType(UserAction.ClickAction::class.java).compose(shareArticle()),
+                        shared.ofType(UserAction.LoadTagsAction::class.java).compose(loadTags()),
+                        shared.ofType(UserAction.LoadImageAction::class.java).compose(loadImage())
                     )
             }
         }
@@ -39,11 +41,42 @@ class UserActionProcessorHolder @Inject constructor(private val repository: Repo
 
     }
 
-//     fun loadImage(): Observable<FieldsUrl> {
-//        return repository.loadImage(assetId)
-//                    .toObservable()
-//                    .map { response -> response.fields}
-//    }
+     fun loadImage(): ObservableTransformer<UserAction.LoadImageAction,UserResult.LoadImageResult> {
+
+         return ObservableTransformer {
+             action -> action.flatMap {
+             repository.loadImage("61XHcqOBFYAYCGsKugoMYK")
+                 .toObservable()
+                 .map { response -> UserResult.LoadImageResult.Success(response.fields)
+                 }
+                 .cast(UserResult.LoadImageResult::class.java)
+                 .onErrorReturn { t ->
+                     UserResult.LoadImageResult.Failure(t.localizedMessage)
+                 }
+                 .subscribeOn(schedulerProvider.io())
+                 .observeOn(schedulerProvider.ui())
+                 .startWith(UserResult.LoadImageResult.InFlight)
+         }
+         }
+     }
+    fun loadTags(): ObservableTransformer<UserAction.LoadTagsAction,UserResult.LoadTagsResult> {
+
+        return ObservableTransformer {
+                action -> action.flatMap {
+            repository.loadTags("3RvdyqS8408uQQkkeyi26k")
+                .toObservable()
+                .map { response -> UserResult.LoadTagsResult.Success(response.fields)
+                }
+                .cast(UserResult.LoadTagsResult::class.java)
+                .onErrorReturn { t ->
+                    UserResult.LoadTagsResult.Failure(t.localizedMessage)
+                }
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .startWith(UserResult.LoadTagsResult.InFlight)
+        }
+        }
+    }
      var assetId = ""
      private fun loadUser(): ObservableTransformer<UserAction.LoadUserAction, UserResult.LoadUserResult> {
         return ObservableTransformer { action ->
@@ -62,6 +95,7 @@ class UserActionProcessorHolder @Inject constructor(private val repository: Repo
                         .startWith(UserResult.LoadUserResult.InFlight)
 
             }
+
         }
 
     }
