@@ -46,13 +46,13 @@ class HomeViewModel(private val homeActionProcessorHolder:
                 is HomeResult.LoadHomeResult -> {
                     when (result) {
                         is HomeResult.LoadHomeResult.Success -> {
-                            previousState.copy(isLoading = false, isError = false, errorMessage = "", articles = result.newsList)
+                            previousState.copy(isLoading = false, isError = false, errorMessage = 401, articles = result.newsList)
                         }
                         is HomeResult.LoadHomeResult.Failure -> {
-                            previousState.copy(isLoading = false, isError = true, errorMessage = result.errorMessage)
+                            previousState.copy(isLoading = false, isError = true, errorMessage = 401)
                         }
                         is HomeResult.LoadHomeResult.InFlight -> {
-                            previousState.copy(isLoading = true, isError = false, errorMessage = "", showShareOption = false)
+                            previousState.copy(isLoading = true, isError = false, errorMessage = 401, showShareOption = false)
                         }
                     }
                 }

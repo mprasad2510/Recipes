@@ -8,6 +8,8 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import android.content.Intent
+import android.os.StrictMode
+import android.support.multidex.MultiDex
 import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -18,7 +20,7 @@ import org.mp.recipes.data.di.base.BaseActivity
 import org.mp.recipes.data.di.feature.home.detail.UserActivity
 import org.mp.recipes.data.di.mvibase.MviView
 import org.mp.recipes.data.remote.model.Fields
-import org.mp.recipes.data.remote.model.Items
+import org.mp.recipes.data.remote.model.ItemsItem
 import org.mp.recipes.utils.gone
 import org.mp.recipes.utils.visible
 
@@ -26,8 +28,12 @@ import org.mp.recipes.utils.visible
 class HomeActivity : BaseActivity(), MviView<HomeIntent, HomeViewState>, HasActivityInjector {
 
     override fun bind() {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+        }
+        MultiDex.install(this@HomeActivity)
         newsRv.layoutManager = LinearLayoutManager(this)
-
         viewModel.processIntents(intents())
         viewModel.states().observe(this, Observer { if (it != null) render(it) })
 
@@ -63,7 +69,7 @@ class HomeActivity : BaseActivity(), MviView<HomeIntent, HomeViewState>, HasActi
                 progressBar.gone()
             }
             if (!articles.isEmpty()) {
-                newsRv.adapter = NewsAdapter(articles, { clickItem -> clickIntent.onNext(HomeIntent.ClickIntent(clickItem)) })
+                newsRv.adapter = NewsAdapter(articles, { clickItem -> clickIntent.onNext(HomeIntent.ClickIntent(clickItem))})
             }
             if(showShareOption){
 
@@ -73,29 +79,19 @@ class HomeActivity : BaseActivity(), MviView<HomeIntent, HomeViewState>, HasActi
 
         }
     }
-    private var itemPosition: Int = 0
-    private  var  itemValue:String? = ""
-    private fun showIntent(articles: List<Items>) {
-        for (value in articles) {
-
-            itemValue = value.fields?.title
+    companion object {
+        var id = ""
+        var image =""
+    }
+    private fun showIntent(articles: List<ItemsItem>) {
+        for (values in articles) {
+             id = values.sys.id
+            image = values?.fields?.body
         }
-
-        for (position in articles.indices) {
-
-            itemPosition = position
-        }
-        Log.d("***POS OF ARTICLE***", "$itemPosition")
-        Log.d("***ID OF ARTICLE***", "$itemValue")
             val intent = Intent(this@HomeActivity, UserActivity::class.java)
-             with(intent)
-             {
-                 putExtra("id", itemValue)
-                 putExtra("position", itemPosition)
-                 Log.d("***ID OF ARTICLE1***", "$itemValue")
-             }
+            intent.putExtra("id",id)
+            Log.d("****id****","$id")
             startActivity(intent)
-
     }
 
 

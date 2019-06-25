@@ -2,13 +2,14 @@ package org.mp.recipes.data.di.feature.home.detail
 
 import org.mp.recipes.data.di.mvibase.MviViewState
 import org.mp.recipes.data.remote.model.Fields
-import org.mp.recipes.data.remote.model.Items
+import org.mp.recipes.data.remote.model.FieldsUrl
+import org.mp.recipes.data.remote.model.ItemsItem
 
 
 data class UserViewState (val isLoadingUser: Boolean,
                           val errorMessage: String,
                           val isError: Boolean,
-                          val userList: List<Items>,
+                          val userList: Fields?,
                           val showShareOption: Boolean,
                           val user: Fields?
                           ) : MviViewState
@@ -19,7 +20,7 @@ data class UserViewState (val isLoadingUser: Boolean,
                     isLoadingUser = false,
                     isError = false,
                     errorMessage = "",
-                    userList = emptyList(),
+                    userList = null,
                     showShareOption = false,
                     user = null
             )

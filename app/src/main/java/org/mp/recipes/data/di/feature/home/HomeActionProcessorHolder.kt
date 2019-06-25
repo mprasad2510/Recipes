@@ -39,11 +39,12 @@ class HomeActionProcessorHolder @Inject constructor(private val repository: Repo
         return ObservableTransformer { action ->
             action.flatMap {
                 repository.loadList()
+                    .toObservable()
                         .map { response -> HomeResult.LoadHomeResult.Success(response.items)
-                         Log.d("***RESPONSE***","$response")}
+                       }
                         .cast(HomeResult.LoadHomeResult::class.java)
                         .onErrorReturn { t ->
-                            HomeResult.LoadHomeResult.Failure(t.localizedMessage)
+                            HomeResult.LoadHomeResult.Failure(401)
                         }
                         .subscribeOn(schedulerProvider.io())
                         .observeOn(schedulerProvider.ui())

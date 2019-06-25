@@ -6,6 +6,7 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.functions.BiFunction
 import org.mp.recipes.data.di.base.BaseViewModel
 import org.mp.recipes.data.di.mvibase.MviActionProcessorHolder
+import org.mp.recipes.data.remote.model.FieldsUrl
 
 
 class UserViewModel(private val userActionProcessorHolder:
@@ -60,6 +61,7 @@ class UserViewModel(private val userActionProcessorHolder:
                 is UserResult.ClickResult -> {
                     previousState.copy(showShareOption = true, user = result.user)
                 }
+
             }
         }
     }

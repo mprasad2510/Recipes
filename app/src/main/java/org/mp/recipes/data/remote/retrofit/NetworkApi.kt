@@ -1,22 +1,25 @@
 package org.mp.recipes.data.remote.retrofit
 
-import io.reactivex.Observable
-import org.mp.recipes.data.remote.model.Base
+import io.reactivex.Single
+import org.mp.recipes.data.remote.model.DetailResponse
+import org.mp.recipes.data.remote.model.LoadImageResponse
+import org.mp.recipes.data.remote.model.Response
 import retrofit2.http.*
 
 
 interface NetworkApi {
     companion object {
         const val BASE_URL = "https://cdn.contentful.com"
-
     }
+    @GET("/spaces/{space_id}/environments/{environment_id}/entries")
+    fun loadList(@Path("space_id")  spaceId:String, @Path("environment_id") environmentId : String, @Query("access_token") accessToken: String): Single<Response>
 
+    @GET("/spaces/{space_id}/environments/{environment_id}/entries/{entry_id}")
+    fun loadDetailList(@Path("space_id")  spaceId:String, @Path("environment_id")
+    environmentId : String, @Path("entry_id") id : String, @Query("access_token")accessToken: String): Single<DetailResponse>
 
-    @GET("/spaces/kk2bw5ojx476/environments/master/entries?access_token=7ac531648a1b5e1dab6c18b0979f822a5aad0fe5f1109829b8a197eb2be4b84c")
-    fun loadList(): Observable<Base>
-
-//
-//    @GET("/spaces/kk2bw5ojx476/environments/master/entries/61Lgvo6rzUIgIGgcOAMgQ8?access_token=7ac531648a1b5e1dab6c18b0979f822a5aad0fe5f1109829b8a197eb2be4b84c")
-//    fun loadlistDetail(@Path("doctorId") contentId:Doctors) : Observable<String>
+    @GET("/spaces/{space_id}/environments/{environment_id}/assets/{asset_id}")
+    fun loadImage(@Path("space_id") spaceId: String,@Path("environment_id") environmentId: String,
+                  @Path("asset_id") assetId: String, @Query("access_token") accessToken: String) : Single<LoadImageResponse>
 }
 

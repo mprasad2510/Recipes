@@ -2,13 +2,13 @@ package org.mp.recipes.data.di.feature.home
 
 import org.mp.recipes.data.di.mvibase.MviViewState
 import org.mp.recipes.data.remote.model.Fields
-import org.mp.recipes.data.remote.model.Items
+import org.mp.recipes.data.remote.model.ItemsItem
 
 
 data class HomeViewState(val isLoading: Boolean,
-                         val errorMessage: String,
+                         val errorMessage: Int,
                          val isError: Boolean,
-                         val articles: List<Items>,
+                         val articles: List<ItemsItem>,
                          val showShareOption: Boolean,
                          val shareArticle: Fields?
 ) : MviViewState {
@@ -18,7 +18,7 @@ data class HomeViewState(val isLoading: Boolean,
             return HomeViewState(
                     isLoading = false,
                     isError = false,
-                    errorMessage = "",
+                    errorMessage = 0,
                     articles = emptyList(),
                     showShareOption = false,
                     shareArticle = null

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.util.Log
+import com.bumptech.glide.Glide
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
 import io.reactivex.Observable
@@ -13,28 +13,30 @@ import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_user.*
 import org.mp.recipes.R
 import org.mp.recipes.data.di.base.BaseActivity
+import org.mp.recipes.data.di.feature.home.HomeActivity.Companion.image
 import org.mp.recipes.data.di.mvibase.MviView
 import org.mp.recipes.data.remote.model.Fields
+import org.mp.recipes.data.remote.model.FieldsUrl
 import org.mp.recipes.utils.gone
 import org.mp.recipes.utils.visible
+import java.util.regex.Pattern
 
 
 class UserActivity : BaseActivity(), MviView<UserIntent, UserViewState>, HasActivityInjector {
 
-
-    companion object {
-        var id = 0
-    }
     override fun bind() {
-        id = intent.getIntExtra("id", 0)
-        Log.d("***ID OF ARTICLE2***", "$id")
         viewModel.processIntents(intents())
         viewModel.states().observe(this, Observer { if (it != null) render(it) })
     }
 
+    companion object
+    {
+        var id = ""
+    }
+
     override fun layoutId(): Int {
         val view = R.layout.activity_user
-
+        id = intent.getStringExtra("id")
         return view
     }
 
@@ -65,12 +67,13 @@ class UserActivity : BaseActivity(), MviView<UserIntent, UserViewState>, HasActi
             } else {
                 progressBar1.gone()
             }
-//            text_by.text = StringBuilder().append("By : ").append(userList?.by)
-//            text_comments.text = StringBuilder().append("Comments : ").append(userList?.title)
-//            text_kids.text = userList?.kids.toString()
-//            text_parent.text = userList?.score.toString()
-//            text_time.text = StringBuilder().append("Comments : ").append(userList?.time)
 
+            if(userList != null) {
+              //  Glide.with(coverImage).load("https:" + image?.file?.url).into(coverImage)
+                text_by.text = StringBuilder().append("Title : ").append(userList?.title)
+                text_comments.text = StringBuilder().append("Calories : ").append(userList?.calories.toString())
+                text_kids.text = StringBuilder().append("Description : ").append(userList?.description)
+            }
             if (showShareOption) {
                 showShareIntent(user)
             }
