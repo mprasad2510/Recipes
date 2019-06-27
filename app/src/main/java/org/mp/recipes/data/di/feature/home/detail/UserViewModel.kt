@@ -32,6 +32,7 @@ class UserViewModel(private val userActionProcessorHolder:
             is UserIntent.LoadImageIntent -> UserAction.LoadImageAction
             is UserIntent.LoadTagsIntent -> UserAction.LoadTagsAction
             is UserIntent.ClickIntent -> UserAction.ClickAction(intent.user)
+
         }
     }
 
@@ -94,6 +95,7 @@ class UserViewModel(private val userActionProcessorHolder:
                 is UserResult.ClickResult -> {
                     previousState.copy(showShareOption = true, user = result.user)
                 }
+
 
             }
         }

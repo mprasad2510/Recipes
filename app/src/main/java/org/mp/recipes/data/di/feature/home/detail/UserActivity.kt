@@ -4,7 +4,6 @@ import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
 import com.bumptech.glide.Glide
 import dagger.android.AndroidInjector
 import dagger.android.HasActivityInjector
@@ -14,13 +13,10 @@ import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_user.*
 import org.mp.recipes.R
 import org.mp.recipes.data.di.base.BaseActivity
-import org.mp.recipes.data.di.feature.home.HomeActivity.Companion.image
 import org.mp.recipes.data.di.mvibase.MviView
 import org.mp.recipes.data.remote.model.Fields
-import org.mp.recipes.data.remote.model.FieldsUrl
 import org.mp.recipes.utils.gone
 import org.mp.recipes.utils.visible
-import java.util.regex.Pattern
 
 
 class UserActivity : BaseActivity(), MviView<UserIntent, UserViewState>, HasActivityInjector {
@@ -85,7 +81,7 @@ class UserActivity : BaseActivity(), MviView<UserIntent, UserViewState>, HasActi
                 text_comments.text = StringBuilder().append("Calories : ").append(userList?.calories.toString())
                 text_kids.text = StringBuilder().append("Description : ").append(userList?.description)
             if (showShareOption) {
-                showShareIntent(user)
+                //showShareIntent(user)
             }
 
         }

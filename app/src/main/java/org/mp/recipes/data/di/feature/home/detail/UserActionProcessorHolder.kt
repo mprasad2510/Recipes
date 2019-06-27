@@ -1,18 +1,10 @@
 package org.mp.recipes.data.di.feature.home.detail
 
-
-
-
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
-import io.reactivex.Single
 import org.mp.doctorsearchapp.utils.schedulers.BaseSchedulerProvider
 import org.mp.recipes.data.Repository
-import org.mp.recipes.data.di.feature.home.HomeActivity
-import org.mp.recipes.data.di.feature.home.HomeActivity.Companion.id
 import org.mp.recipes.data.di.mvibase.MviActionProcessorHolder
-import org.mp.recipes.data.remote.model.FieldsUrl
-import org.mp.recipes.data.remote.model.LoadImageResponse
 import javax.inject.Inject
 
 class UserActionProcessorHolder @Inject constructor(private val repository: Repository,
@@ -31,7 +23,6 @@ class UserActionProcessorHolder @Inject constructor(private val repository: Repo
         }
     }
 
-
     private fun shareArticle(): ObservableTransformer<UserAction.ClickAction, UserResult.ClickResult> {
         return ObservableTransformer { action ->
             action.flatMap {
@@ -42,7 +33,6 @@ class UserActionProcessorHolder @Inject constructor(private val repository: Repo
     }
 
      fun loadImage(): ObservableTransformer<UserAction.LoadImageAction,UserResult.LoadImageResult> {
-
          return ObservableTransformer {
              action -> action.flatMap {
              repository.loadImage("61XHcqOBFYAYCGsKugoMYK")

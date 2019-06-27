@@ -17,7 +17,7 @@ data class Response(
 	val includes: Includes,
 
 	@SerializedName("sys")
-	val sys: Sys,
+	val sys: Sys?,
 
 	@SerializedName("items")
 	val items: List<ItemsItem>

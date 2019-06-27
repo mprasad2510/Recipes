@@ -1,10 +1,7 @@
 package org.mp.recipes.data.di.feature.home.detail
 
 import org.mp.recipes.data.di.mvibase.MviResult
-import org.mp.recipes.data.remote.model.Fields
-import org.mp.recipes.data.remote.model.FieldsTags
-import org.mp.recipes.data.remote.model.FieldsUrl
-import org.mp.recipes.data.remote.model.ItemsItem
+import org.mp.recipes.data.remote.model.*
 
 
 sealed class UserResult : MviResult {

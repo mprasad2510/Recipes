@@ -1,9 +1,8 @@
 package org.mp.recipes.data.di.feature.home.detail
 
+import org.mp.recipes.data.di.feature.home.detail.UserActivity.Companion.assetId
 import org.mp.recipes.data.di.mvibase.MviViewState
-import org.mp.recipes.data.remote.model.Fields
-import org.mp.recipes.data.remote.model.FieldsTags
-import org.mp.recipes.data.remote.model.FieldsUrl
+import org.mp.recipes.data.remote.model.*
 
 data class UserViewState (val isLoadingUser: Boolean,
                           val errorMessage: String,
@@ -11,6 +10,8 @@ data class UserViewState (val isLoadingUser: Boolean,
                           val userList: Fields?,
                           val imageList : FieldsUrl?,
                           val tagsList : FieldsTags?,
+                          val assetId : Photo?,
+                          val entryId : TagsItem?,
                           val showShareOption: Boolean,
                           val user: Fields?
                           ) : MviViewState
@@ -25,7 +26,9 @@ data class UserViewState (val isLoadingUser: Boolean,
                     errorMessage = "",
                     userList = null,
                     showShareOption = false,
-                    user = null
+                    user = null,
+                    assetId = null,
+                    entryId = null
             )
         }
     }

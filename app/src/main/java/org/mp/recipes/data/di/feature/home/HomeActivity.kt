@@ -9,8 +9,8 @@ import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import android.content.Intent
 import android.os.StrictMode
+import android.support.annotation.VisibleForTesting
 import android.support.multidex.MultiDex
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import dagger.android.HasActivityInjector
@@ -19,13 +19,12 @@ import org.mp.recipes.R
 import org.mp.recipes.data.di.base.BaseActivity
 import org.mp.recipes.data.di.feature.home.detail.UserActivity
 import org.mp.recipes.data.di.mvibase.MviView
-import org.mp.recipes.data.remote.model.Fields
 import org.mp.recipes.data.remote.model.ItemsItem
 import org.mp.recipes.utils.gone
 import org.mp.recipes.utils.visible
 
 
-class HomeActivity : BaseActivity(), MviView<HomeIntent, HomeViewState>, HasActivityInjector {
+open class HomeActivity : BaseActivity(), MviView<HomeIntent, HomeViewState>, HasActivityInjector {
 
     override fun bind() {
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -41,13 +40,10 @@ class HomeActivity : BaseActivity(), MviView<HomeIntent, HomeViewState>, HasActi
 
     override fun layoutId(): Int = R.layout.activity_main
 
-
     @Inject
     lateinit var factory: HomeViewmodelFactory
 
     private val clickIntent = PublishSubject.create<HomeIntent.ClickIntent>()
-
-
 
     private val viewModel: HomeViewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProviders.of(this, factory).get(HomeViewModel::class.java)
@@ -79,22 +75,16 @@ class HomeActivity : BaseActivity(), MviView<HomeIntent, HomeViewState>, HasActi
 
         }
     }
-    companion object {
-        var id = ""
-        var image =""
-    }
+    private  var id = ""
     private fun showIntent(articles: List<ItemsItem>) {
+
         for (values in articles) {
-             id = values.sys.id
-            image = values?.fields?.body
+            id = values.sys.id
         }
             val intent = Intent(this@HomeActivity, UserActivity::class.java)
             intent.putExtra("id",id)
-            Log.d("****id****","$id")
             startActivity(intent)
     }
-
-
     override fun activityInjector(): AndroidInjector<Activity> {
         return injector
     }
