@@ -7,10 +7,11 @@ MVI Architecture with Kotlin , Rxjava . Testing with Mockito,Roboelectric
 * Gson
 * Dagger 2
 * Timber
+* UI tests (Doing)
+
 
 ## Tests
 * run `./gradlew test` for unit tests.
-* UI tests (TODO)
 
 
 ## TODO
